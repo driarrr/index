@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>driann bn❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f592a2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .container {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+    }
+
+    h1 {
+        color: #e91e63;
+        font-size: 2.5em;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 1em;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    .yes {
+        background-color: #a00c21;
+        color: white;
+    }
+
+    .yes:hover {
+        background-color: #720307;
+    }
+
+    .no {
+        background-color: #ccc;
+        color: #333;
+        position: absolute;
+    }
+
+    .heart {
+        position: fixed;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-800px);
+            opacity: 0;
+        }
+    }
+
+    .hidden {
+        display: none;
+        font-size: 1.5em;
+        color: #e91e63;
+        margin-top: 20px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will You Be My Valentine? 💘</h1>
+    <p>Чаддын бол үгүй дараарай!</p>
+
+    <button class="yes" onclick="sayYes()">Тийм 💖</button>
+    <button class="no" onmouseover="moveButton()">Үгүэээ😢</button>
+
+    <div id="message" class="hidden">Yay!!! Заа залуу явж PC ди 💞</div>
+</div>
+
+<script>
+    function sayYes() {
+        document.getElementById("message").classList.remove("hidden");
+        startHearts();
+    }
+
+    function moveButton() {
+        const button = document.querySelector(".no");
+        const container = document.querySelector(".container");
+
+        const maxX = container.offsetWidth - button.offsetWidth;
+        const maxY = container.offsetHeight - button.offsetHeight;
+
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        button.style.left = randomX + "px";
+        button.style.top = randomY + "px";
+    }
+
+    function startHearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "💗";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.bottom = "0px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }, 300);
+    }
+</script>
+
+</body>
+</html>
