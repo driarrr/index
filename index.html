@@ -62,10 +62,15 @@ button:hover { transform: scale(1.1) rotate(-5deg); }
 }
 @keyframes twinkle { 0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;} }
 
-.confetti {
-    border-radius:50%;
-}
+.confetti { border-radius:50%; }
 
+.checkMsg {
+    position:absolute;
+    color:#e91e63;
+    font-size:1.2em;
+    font-weight:bold;
+    animation:fadeIn 0.5s forwards;
+}
 </style>
 </head>
 <body>
@@ -87,13 +92,12 @@ button:hover { transform: scale(1.1) rotate(-5deg); }
 function sayYes() {
     const msg = document.getElementById("message");
     msg.classList.remove("hidden");
-    typeMessage(msg,"Yay!!! love yaa 💞");
+    typeMessage(msg,"Yay!!! Заа залуу явж PC ди 💞");
 
     startHearts();
     startConfetti();
     startSparkles();
 
-    // Play funny sound
     document.getElementById("sound").play();
 }
 
@@ -107,7 +111,7 @@ function typeMessage(element,text){
     },50);
 }
 
-// “Үгүй” товч эвлэх
+// “Үгүй” товч эвлэх + “Итгэлтэй байна уу?”
 function moveButton(){
     const button = document.querySelector(".no");
     const container = document.querySelector(".container");
@@ -122,6 +126,16 @@ function moveButton(){
     button.style.top=randomY+"px";
     button.style.transform = "rotate("+ (Math.random()*60-30) +"deg)";
     setTimeout(()=>button.style.transform="rotate(0deg)",200);
+
+    // Итгэл шалгах message
+    let checkMsg = document.createElement("div");
+    checkMsg.className = "checkMsg";
+    checkMsg.style.left = (randomX + 50) + "px";
+    checkMsg.style.top = (randomY + 50) + "px";
+    checkMsg.innerText = "Итгэлтэй байна уу? 😏";
+    container.appendChild(checkMsg);
+
+    setTimeout(()=>checkMsg.remove(),2000); // 2 секунд харагдана
 }
 
 // Floating hearts
@@ -170,4 +184,3 @@ function startSparkles(){
 
 </body>
 </html>
-
