@@ -1,142 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>driann bn❤️</title>
-
+<title>FUN Valentine 💖</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #f592a2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-    }
+body {
+    margin:0; padding:0;
+    font-family:'Segoe UI', sans-serif;
+    overflow:hidden;
+    display:flex; justify-content:center; align-items:center;
+    height:100vh;
+    background: linear-gradient(135deg, #ff9a9e, #ffd1dc);
+    animation:bgAnimate 10s ease infinite alternate;
+}
 
-    .container {
-        text-align: center;
-        background: #ffffff;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        position: relative;
-    }
+@keyframes bgAnimate {
+    0% {background: linear-gradient(135deg, #ff9a9e, #ffd1dc);}
+    50% {background: linear-gradient(135deg, #ffb3c6, #ffe6f0);}
+    100% {background: linear-gradient(135deg, #ff9a9e, #ffd1dc);}
+}
 
-    h1 {
-        color: #e91e63;
-        font-size: 2.5em;
-    }
+.container {
+    text-align:center;
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    position:relative;
+    transition: transform 0.3s;
+}
+.container:hover {
+    transform: rotate(-2deg) scale(1.03);
+}
 
-    p {
-        font-size: 1.2em;
-        color: #555;
-    }
+h1 { color:#e91e63; font-size:2.5em; margin-bottom:10px; }
+p { font-size:1.2em; color:#555; }
 
-    button {
-        padding: 12px 25px;
-        font-size: 1em;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        margin-top: 20px;
-        transition: 0.3s;
-    }
+button {
+    padding:12px 25px; font-size:1em; border:none;
+    border-radius:25px; cursor:pointer; margin:15px 10px 0 10px;
+    transition:0.3s;
+}
+button:hover { transform: scale(1.1) rotate(-5deg); }
 
-    .yes {
-        background-color: #a00c21;
-        color: #ffffff;
-    }
+.yes { background:#a00c21; color:white; }
+.yes:hover { background:#720307; }
 
-    .yes:hover {
-        background-color: #720307;
-    }
+.no { background:#ccc; color:#333; position:absolute; }
 
-    .no {
-        background-color: #ccc;
-        color: #333;
-        position: absolute;
-    }
+.hidden { display:none; font-size:1.5em; color:#e91e63; margin-top:20px; opacity:0; animation:fadeIn 1s forwards; }
+@keyframes fadeIn { to { opacity:1; } }
 
-    .heart {
-        position: fixed;
-        color: #ff4d6d;
-        font-size: 20px;
-        animation: floatUp 4s linear infinite;
-    }
+.heart,.sparkle,.confetti {
+    position:fixed; pointer-events:none; animation:floatUp linear forwards;
+}
+@keyframes floatUp { 0%{transform:translateY(0) scale(1);opacity:1;} 100%{transform:translateY(-800px) scale(1.5);opacity:0;} }
 
-    @keyframes floatUp {
-        0% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(-800px);
-            opacity: 0;
-        }
-    }
+.sparkle {
+    color:#fff; font-size:15px; animation:twinkle 2s ease-in-out infinite alternate;
+}
+@keyframes twinkle { 0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;} }
 
-    .hidden {
-        display: none;
-        font-size: 1.5em;
-        color: #e91e63;
-        margin-top: 20px;
-    }
+.confetti {
+    border-radius:50%;
+}
+
 </style>
 </head>
-
 <body>
 
 <div class="container">
     <h1>Will You Be My Valentine? 💘</h1>
-    <p>Чаддын бол үгүй дараарай!</p>
+    <p>Чадлын бол үгүй дарж үзээрэй 😏</p>
 
     <button class="yes" onclick="sayYes()">Тийм 💖</button>
     <button class="no" onmouseover="moveButton()">Үгүэээ😢</button>
 
-    <div id="message" class="hidden">Yay!!! Заа залуу явж PC ди 💞</div>
+    <div id="message" class="hidden"></div>
 </div>
 
+<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
 <script>
-    function sayYes() {
-        document.getElementById("message").classList.remove("hidden");
-        startHearts();
-    }
+// “Тийм” товч дарвал
+function sayYes() {
+    const msg = document.getElementById("message");
+    msg.classList.remove("hidden");
+    typeMessage(msg,"Yay!!! Заа залуу явж PC ди 💞");
 
-    function moveButton() {
-        const button = document.querySelector(".no");
-        const container = document.querySelector(".container");
+    startHearts();
+    startConfetti();
+    startSparkles();
 
-        const maxX = container.offsetWidth - button.offsetWidth;
-        const maxY = container.offsetHeight - button.offsetHeight;
+    // Play funny sound
+    document.getElementById("sound").play();
+}
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+// Message typing effect
+function typeMessage(element,text){
+    element.innerText="";
+    let i=0;
+    const interval = setInterval(()=>{
+        if(i<text.length){ element.innerText+=text[i]; i++; }
+        else clearInterval(interval);
+    },50);
+}
 
-        button.style.left = randomX + "px";
-        button.style.top = randomY + "px";
-    }
+// “Үгүй” товч эвлэх
+function moveButton(){
+    const button = document.querySelector(".no");
+    const container = document.querySelector(".container");
 
-    function startHearts() {
-        setInterval(() => {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = "💗";
-            heart.style.left = Math.random() * window.innerWidth + "px";
-            heart.style.bottom = "0px";
-            document.body.appendChild(heart);
+    const maxX = container.offsetWidth - button.offsetWidth + 100;
+    const maxY = container.offsetHeight - button.offsetHeight + 100;
 
-            setTimeout(() => {
-                heart.remove();
-            }, 4000);
-        }, 300);
-    }
+    const randomX = Math.floor(Math.random()*maxX)-50;
+    const randomY = Math.floor(Math.random()*maxY)-50;
+
+    button.style.left=randomX+"px";
+    button.style.top=randomY+"px";
+    button.style.transform = "rotate("+ (Math.random()*60-30) +"deg)";
+    setTimeout(()=>button.style.transform="rotate(0deg)",200);
+}
+
+// Floating hearts
+function startHearts(){
+    setInterval(()=>{
+        const heart=document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText=["💖","💘","💝","💌","😍","🥰"][Math.floor(Math.random()*6)];
+        heart.style.left=Math.random()*window.innerWidth+"px";
+        heart.style.fontSize=15+Math.random()*35+"px";
+        heart.style.animationDuration=3+Math.random()*3+"s";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },200);
+}
+
+// Confetti
+function startConfetti(){
+    setInterval(()=>{
+        const conf=document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.width=conf.style.height=5+Math.random()*10+"px";
+        conf.style.background=["#ff4d6d","#ff66a3","#ffb3c6","#ffe6f0","#ff99b3"][Math.floor(Math.random()*5)];
+        conf.style.left=Math.random()*window.innerWidth+"px";
+        conf.style.bottom="0px";
+        conf.style.animationDuration=2+Math.random()*3+"s";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),5000);
+    },150);
+}
+
+// Sparkles
+function startSparkles(){
+    setInterval(()=>{
+        const sparkle=document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.innerText="✨";
+        sparkle.style.left=Math.random()*window.innerWidth+"px";
+        sparkle.style.bottom=Math.random()*window.innerHeight+"px";
+        sparkle.style.fontSize=10+Math.random()*20+"px";
+        document.body.appendChild(sparkle);
+        setTimeout(()=>sparkle.remove(),3000);
+    },300);
+}
 </script>
 
 </body>
 </html>
-
